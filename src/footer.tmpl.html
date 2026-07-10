@@ -1,0 +1,6 @@
+<md-toast role="alert" aria-relevant="all">
+  <span class="md-toast-text" flex>{{ctrl.toastMessage}}</span>
+  <md-button ng-click="ctrl.goToUrl(ctrl.url)" ng-if="ctrl.url">
+      {{ctrl.buttonText}}
+  </md-button>
+</md-toast>
