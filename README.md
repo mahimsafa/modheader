@@ -1,20 +1,18 @@
-# ModHeader — MV3 Fork
+# ModHeader
 
-A personal fork of the [ModHeader](https://github.com/bewisse/modheader) Chrome extension, migrated from **Manifest V2 → Manifest V3** to work with modern Chrome (post-2023).
+A Chrome extension to modify HTTP request and response headers, built for **Manifest V3**.
 
-## What changed from the original
+## Architecture overview
 
-| Area | Original (MV2) | This fork (MV3) |
-|---|---|---|
-| Manifest version | 2 | **3** |
-| Background | Persistent background page | **Service worker** (`background.js`) |
-| Header modification | `webRequest` blocking listeners | **`declarativeNetRequest.updateDynamicRules`** |
-| Storage | `localStorage` (background page) | **`chrome.storage.local`** |
-| Storage change detection | `window.addEventListener('storage', ...)` | **`chrome.storage.onChanged`** |
-| Toolbar action | `browser_action` | **`action`** |
-| Context menus | `contexts: ['browser_action']` | **`contexts: ['action']`** |
-| `<all_urls>` | Inside `permissions` | **`host_permissions`** |
-| `webRequestBlocking` | In `permissions` | **Removed** (replaced by DNR) |
+| Area | Implementation |
+|---|---|
+| Manifest version | **3** |
+| Background | **Service worker** (`background.js`) |
+| Header modification | **`declarativeNetRequest.updateDynamicRules`** |
+| Storage | **`chrome.storage.local`** |
+| Storage change detection | **`chrome.storage.onChanged`** |
+| Toolbar action | **`action`** |
+| Host permissions | **`host_permissions`** |
 
 ## Features
 
@@ -39,11 +37,6 @@ A personal fork of the [ModHeader](https://github.com/bewisse/modheader) Chrome 
 - **`appendMode` (direct concat)**: `declarativeNetRequest` only supports `set` / `append` (comma-delimited). Direct string concatenation without a separator is mapped to `append`.
 - **Dynamic regex filters**: Chrome has limits on regex complexity for `regexFilter` conditions in DNR rules.
 - **Service worker lifecycle**: The background service worker can be suspended by Chrome. State is persisted to `chrome.storage.local` and reloaded on each activation.
-
-## Original project
-
-- GitHub: [bewisse/modheader](https://github.com/bewisse/modheader)
-- Chrome Web Store: [ModHeader](https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj)
 
 ## License
 
